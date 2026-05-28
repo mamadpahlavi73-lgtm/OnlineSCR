@@ -1,6 +1,41 @@
-local Six = false
+script_name("Dialog Response")
+
+require "lib.moonloader"
+
+local dialogId = 6789
 
 function main()
+    repeat wait(0) until isSampAvailable()
 
+    sampRegisterChatCommand("dlg", function()
 
+        sampShowDialog(
+            dialogId,
+            "Test",
+            "Hello",
+            "OK",
+            "Close",
+            0
+        )
+
+    end)
+
+    while true do
+        wait(0)
+
+        local result, button, list, input = sampHasDialogRespond(dialogId)
+
+        if result then
+
+            if button == 1 then
+                sampAddChatMessage("OK Clicked", -1)
+
+                setCharHealth(PLAYER_PED, 100)
+
+            else
+                sampAddChatMessage("Closed", -1)
+            end
+
+        end
+    end
 end
