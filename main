@@ -48,41 +48,80 @@ end
 function applyStyle()
     local style = imgui.GetStyle()
 
-    style.WindowRounding = 12
-    style.ChildRounding = 10
-    style.FrameRounding = 8
-    style.PopupRounding = 8
-    style.ScrollbarRounding = 10
-    style.GrabRounding = 8
-    style.TabRounding = 8
+    style.WindowRounding = 18
+    style.ChildRounding = 16
+    style.FrameRounding = 14
+    style.PopupRounding = 14
+    style.ScrollbarRounding = 14
+    style.GrabRounding = 14
+    style.TabRounding = 14
 
-    style.WindowPadding = imgui.ImVec2(12, 12)
-    style.FramePadding = imgui.ImVec2(8, 6)
-    style.ItemSpacing = imgui.ImVec2(8, 8)
+    style.WindowBorderSize = 0
+    style.ChildBorderSize = 0
+    style.FrameBorderSize = 0
+
+    style.WindowPadding = imgui.ImVec2(16, 16)
+    style.FramePadding = imgui.ImVec2(10, 8)
+    style.ItemSpacing = imgui.ImVec2(10, 10)
+    style.ItemInnerSpacing = imgui.ImVec2(8, 6)
+
+    style.ScrollbarSize = 10
+    style.GrabMinSize = 10
+
+    ------------------------------------------------
+    -- COLORS
+    ------------------------------------------------
 
     local colors = style.Colors
 
-    colors[imgui.Col.WindowBg] = bg
-    colors[imgui.Col.TitleBg] = imgui.ImVec4(0.07, 0.07, 0.09, 1.00)
-    colors[imgui.Col.TitleBgActive] = accent
-    colors[imgui.Col.ChildBg] = child
+    -- MAIN
+    colors[imgui.Col.WindowBg]              = imgui.ImVec4(0.07, 0.08, 0.11, 1.00)
+    colors[imgui.Col.ChildBg]               = imgui.ImVec4(0.10, 0.11, 0.15, 1.00)
 
-    colors[imgui.Col.Button] = imgui.ImVec4(0.15, 0.16, 0.20, 1.00)
-    colors[imgui.Col.ButtonHovered] = imgui.ImVec4(0.20, 0.45, 1.00, 1.00)
-    colors[imgui.Col.ButtonActive] = accent
+    -- TITLE
+    colors[imgui.Col.TitleBg]               = imgui.ImVec4(0.09, 0.10, 0.14, 1.00)
+    colors[imgui.Col.TitleBgActive]         = imgui.ImVec4(0.14, 0.45, 1.00, 1.00)
+    colors[imgui.Col.TitleBgCollapsed]      = imgui.ImVec4(0.09, 0.10, 0.14, 1.00)
 
-    colors[imgui.Col.FrameBg] = imgui.ImVec4(0.13, 0.14, 0.18, 1.00)
-    colors[imgui.Col.FrameBgHovered] = imgui.ImVec4(0.18, 0.19, 0.25, 1.00)
-    colors[imgui.Col.FrameBgActive] = accent
+    -- BUTTON
+    colors[imgui.Col.Button]                = imgui.ImVec4(0.14, 0.16, 0.22, 1.00)
+    colors[imgui.Col.ButtonHovered]         = imgui.ImVec4(0.22, 0.50, 1.00, 1.00)
+    colors[imgui.Col.ButtonActive]          = imgui.ImVec4(0.10, 0.38, 0.90, 1.00)
 
-    colors[imgui.Col.CheckMark] = accent
-    colors[imgui.Col.SliderGrab] = accent
-    colors[imgui.Col.SliderGrabActive] = accent
+    -- FRAME
+    colors[imgui.Col.FrameBg]               = imgui.ImVec4(0.12, 0.13, 0.18, 1.00)
+    colors[imgui.Col.FrameBgHovered]        = imgui.ImVec4(0.17, 0.20, 0.28, 1.00)
+    colors[imgui.Col.FrameBgActive]         = imgui.ImVec4(0.20, 0.45, 1.00, 1.00)
 
-    colors[imgui.Col.Header] = imgui.ImVec4(0.16, 0.17, 0.22, 1.00)
-    colors[imgui.Col.HeaderHovered] = accent
-    colors[imgui.Col.HeaderActive] = accent
-end
+    -- HEADER
+    colors[imgui.Col.Header]                = imgui.ImVec4(0.16, 0.18, 0.25, 1.00)
+    colors[imgui.Col.HeaderHovered]         = imgui.ImVec4(0.22, 0.50, 1.00, 1.00)
+    colors[imgui.Col.HeaderActive]          = imgui.ImVec4(0.14, 0.45, 1.00, 1.00)
+
+    -- CHECKBOX
+    colors[imgui.Col.CheckMark]             = imgui.ImVec4(0.35, 0.70, 1.00, 1.00)
+
+    -- SLIDER
+    colors[imgui.Col.SliderGrab]            = imgui.ImVec4(0.25, 0.60, 1.00, 1.00)
+    colors[imgui.Col.SliderGrabActive]      = imgui.ImVec4(0.15, 0.50, 1.00, 1.00)
+
+    -- SCROLLBAR
+    colors[imgui.Col.ScrollbarBg]           = imgui.ImVec4(0.08, 0.09, 0.12, 1.00)
+    colors[imgui.Col.ScrollbarGrab]         = imgui.ImVec4(0.18, 0.35, 0.70, 1.00)
+    colors[imgui.Col.ScrollbarGrabHovered]  = imgui.ImVec4(0.25, 0.50, 1.00, 1.00)
+    colors[imgui.Col.ScrollbarGrabActive]   = imgui.ImVec4(0.20, 0.45, 1.00, 1.00)
+
+    -- TEXT
+    colors[imgui.Col.Text]                  = imgui.ImVec4(0.92, 0.94, 1.00, 1.00)
+    colors[imgui.Col.TextDisabled]          = imgui.ImVec4(0.50, 0.55, 0.65, 1.00)
+
+    -- BORDER
+    colors[imgui.Col.Border]                = imgui.ImVec4(0.18, 0.22, 0.30, 0.40)
+
+    -- RESIZE
+    colors[imgui.Col.ResizeGrip]            = imgui.ImVec4(0.20, 0.45, 1.00, 0.40)
+    colors[imgui.Col.ResizeGripHovered]     = imgui.ImVec4(0.20, 0.45, 1.00, 0.80)
+    colors[imgui.Col.ResizeGripActive]      = imgui.ImVec4(0.20, 0.45, 1.00, 1.00)end
 
 imgui.OnFrame(
     function() return menu[0] end,
