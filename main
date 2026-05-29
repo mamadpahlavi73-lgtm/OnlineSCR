@@ -1,41 +1,209 @@
-script_name("Dialog Response")
+script_name("Phantom Hub")
+script_author("ChatGPT")
 
-require "lib.moonloader"
+local imgui = require 'mimgui'
+local encoding = require 'encoding'
+encoding.default = 'CP1251'
+u8 = encoding.UTF8
 
-local dialogId = 6789
+local menu = imgui.new.bool(false)
+local selectedTab = 1
+
+local accent = imgui.ImVec4(0.15, 0.55, 1.00, 1.00)
+local bg = imgui.ImVec4(0.08, 0.09, 0.11, 1.00)
+local child = imgui.ImVec4(0.11, 0.12, 0.15, 1.00)
+
+-- OPTIONS
+local godmode = imgui.new.bool(false)
+local speedhack = imgui.new.bool(false)
+local infiniteammo = imgui.new.bool(false)
+local norecoil = imgui.new.bool(false)
+
+local playeresp = imgui.new.bool(false)
+local lineesp = imgui.new.bool(false)
+local boxesp = imgui.new.bool(false)
+
+local vehicleesp = imgui.new.bool(false)
+local cardrive = imgui.new.bool(false)
+
+local darktheme = imgui.new.bool(true)
+local rainbowui = imgui.new.bool(false)
 
 function main()
     repeat wait(0) until isSampAvailable()
 
-    sampRegisterChatCommand("dlg", function()
-
-        sampShowDialog(
-            dialogId,
-            "Test",
-            "Hello",
-            "OK",
-            "Close",
-            0
-        )
-
+    sampRegisterChatCommand("hub", function()
+        menu[0] = not menu[0]
     end)
 
     while true do
         wait(0)
-
-        local result, button, list, input = sampHasDialogRespond(dialogId)
-
-        if result then
-
-            if button == 1 then
-                sampAddChatMessage("OK Clicked", -1)
-
-                setCharHealth(PLAYER_PED, 100)
-
-            else
-                sampAddChatMessage("Closed", -1)
-            end
-
-        end
     end
+end
+
+function imgui.OnInitialize()
+    applyStyle()
+end
+
+function applyStyle()
+    local style = imgui.GetStyle()
+
+    style.WindowRounding = 12
+    style.ChildRounding = 10
+    style.FrameRounding = 8
+    style.PopupRounding = 8
+    style.ScrollbarRounding = 10
+    style.GrabRounding = 8
+    style.TabRounding = 8
+
+    style.WindowPadding = imgui.ImVec2(12, 12)
+    style.FramePadding = imgui.ImVec2(8, 6)
+    style.ItemSpacing = imgui.ImVec2(8, 8)
+
+    local colors = style.Colors
+
+    colors[imgui.Col.WindowBg] = bg
+    colors[imgui.Col.TitleBg] = imgui.ImVec4(0.07, 0.07, 0.09, 1.00)
+    colors[imgui.Col.TitleBgActive] = accent
+    colors[imgui.Col.ChildBg] = child
+
+    colors[imgui.Col.Button] = imgui.ImVec4(0.15, 0.16, 0.20, 1.00)
+    colors[imgui.Col.ButtonHovered] = imgui.ImVec4(0.20, 0.45, 1.00, 1.00)
+    colors[imgui.Col.ButtonActive] = accent
+
+    colors[imgui.Col.FrameBg] = imgui.ImVec4(0.13, 0.14, 0.18, 1.00)
+    colors[imgui.Col.FrameBgHovered] = imgui.ImVec4(0.18, 0.19, 0.25, 1.00)
+    colors[imgui.Col.FrameBgActive] = accent
+
+    colors[imgui.Col.CheckMark] = accent
+    colors[imgui.Col.SliderGrab] = accent
+    colors[imgui.Col.SliderGrabActive] = accent
+
+    colors[imgui.Col.Header] = imgui.ImVec4(0.16, 0.17, 0.22, 1.00)
+    colors[imgui.Col.HeaderHovered] = accent
+    colors[imgui.Col.HeaderActive] = accent
+end
+
+imgui.OnFrame(
+    function() return menu[0] end,
+    function()
+
+        imgui.SetNextWindowSize(imgui.ImVec2(920, 560), imgui.Cond.FirstUseEver)
+
+        imgui.Begin("Phantom Hub", menu,
+            imgui.WindowFlags.NoResize
+            + imgui.WindowFlags.NoCollapse
+        )
+
+        ---------------- LEFT PANEL ----------------
+
+        imgui.BeginChild("##tabs", imgui.ImVec2(180, 0), true)
+
+        if tabButton("Player", 1) then selectedTab = 1 end
+        if tabButton("Weapon", 2) then selectedTab = 2 end
+        if tabButton("ESP", 3) then selectedTab = 3 end
+        if tabButton("Vehicle", 4) then selectedTab = 4 end
+        if tabButton("Other", 5) then selectedTab = 5 end
+        if tabButton("Settings", 6) then selectedTab = 6 end
+
+        imgui.EndChild()
+
+        imgui.SameLine()
+
+        ---------------- RIGHT PANEL ----------------
+
+        imgui.BeginChild("##content", imgui.ImVec2(0, 0), true)
+
+        if selectedTab == 1 then
+
+            imgui.Text(u8"PLAYER")
+            imgui.Separator()
+
+            imgui.Checkbox("God Mode", godmode)
+            imgui.Checkbox("Speed Hack", speedhack)
+
+            imgui.Spacing()
+            imgui.Button("Heal Player", imgui.ImVec2(220, 40))
+            imgui.Button("Give Armor", imgui.ImVec2(220, 40))
+
+        elseif selectedTab == 2 then
+
+            imgui.Text(u8"WEAPON")
+            imgui.Separator()
+
+            imgui.Checkbox("Infinite Ammo", infiniteammo)
+            imgui.Checkbox("No Recoil", norecoil)
+
+            imgui.Spacing()
+            imgui.Button("Give Minigun", imgui.ImVec2(220, 40))
+            imgui.Button("Give Sniper", imgui.ImVec2(220, 40))
+
+        elseif selectedTab == 3 then
+
+            imgui.Text(u8"ESP")
+            imgui.Separator()
+
+            imgui.Checkbox("Player ESP", playeresp)
+            imgui.Checkbox("Line ESP", lineesp)
+            imgui.Checkbox("Box ESP", boxesp)
+
+            imgui.Spacing()
+            imgui.Button("Refresh ESP", imgui.ImVec2(220, 40))
+
+        elseif selectedTab == 4 then
+
+            imgui.Text(u8"VEHICLE")
+            imgui.Separator()
+
+            imgui.Checkbox("Vehicle ESP", vehicleesp)
+            imgui.Checkbox("Car Drive", cardrive)
+
+            imgui.Spacing()
+            imgui.Button("Repair Vehicle", imgui.ImVec2(220, 40))
+            imgui.Button("Flip Vehicle", imgui.ImVec2(220, 40))
+
+        elseif selectedTab == 5 then
+
+            imgui.Text(u8"OTHER")
+            imgui.Separator()
+
+            imgui.Button("Reconnect", imgui.ImVec2(220, 40))
+            imgui.Button("Anti AFK", imgui.ImVec2(220, 40))
+            imgui.Button("FPS Boost", imgui.ImVec2(220, 40))
+
+        elseif selectedTab == 6 then
+
+            imgui.Text(u8"SETTINGS")
+            imgui.Separator()
+
+            imgui.Checkbox("Dark Theme", darktheme)
+            imgui.Checkbox("Rainbow UI", rainbowui)
+
+            imgui.Spacing()
+            imgui.Button("Save Config", imgui.ImVec2(220, 40))
+            imgui.Button("Load Config", imgui.ImVec2(220, 40))
+        end
+
+        imgui.EndChild()
+
+        imgui.End()
+    end
+)
+
+function tabButton(name, id)
+    local active = selectedTab == id
+
+    if active then
+        imgui.PushStyleColor(imgui.Col.Button,
+            imgui.ImVec4(0.20, 0.45, 1.00, 1.00))
+    else
+        imgui.PushStyleColor(imgui.Col.Button,
+            imgui.ImVec4(0.14, 0.15, 0.18, 1.00))
+    end
+
+    local pressed = imgui.Button(name, imgui.ImVec2(160, 45))
+
+    imgui.PopStyleColor()
+
+    return pressed
 end
