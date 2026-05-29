@@ -16,7 +16,7 @@ local selectedTab = 1
 function main()
     repeat wait(0) until isSampAvailable()
 
-    sampRegisterChatCommand("virus", function()
+    sampRegisterChatCommand("pornhub", function()
         menu[0] = not menu[0]
     end)
 
