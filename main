@@ -148,6 +148,27 @@ function applyStyle()
     colors[imgui.Col.SliderGrab] = greenHover
     colors[imgui.Col.SliderGrabActive] = green
 
+    imgui.GetStyle().WindowPadding = imgui.ImVec2(5, 5)
+    imgui.GetStyle().FramePadding = imgui.ImVec2(5, 5)
+    imgui.GetStyle().ItemSpacing = imgui.ImVec2(5, 5)
+    imgui.GetStyle().ItemInnerSpacing = imgui.ImVec2(2, 2)
+    imgui.GetStyle().TouchExtraPadding = imgui.ImVec2(0, 0)
+    imgui.GetStyle().IndentSpacing = 0
+    imgui.GetStyle().ScrollbarSize = 10
+    imgui.GetStyle().GrabMinSize = 10
+    imgui.GetStyle().WindowBorderSize = 1
+    imgui.GetStyle().ChildBorderSize = 1
+    imgui.GetStyle().PopupBorderSize = 1
+    imgui.GetStyle().FrameBorderSize = 1
+    imgui.GetStyle().TabBorderSize = 1
+    imgui.GetStyle().WindowRounding = 8
+    imgui.GetStyle().ChildRounding = 8
+    imgui.GetStyle().FrameRounding = 8
+    imgui.GetStyle().PopupRounding = 8
+    imgui.GetStyle().ScrollbarRounding = 8
+    imgui.GetStyle().GrabRounding = 8
+    imgui.GetStyle().TabRounding = 8
+
     style.Alpha = 1.0
 end
 
