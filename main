@@ -1,5 +1,7 @@
-script_name("Phantom Green Hub")
-script_author("ChatGPT")
+local version = "v1"
+
+script_name("Virus "..version)
+script_author("Pve_Mamad")
 
 local imgui = require 'mimgui'
 local encoding = require 'encoding'
@@ -10,33 +12,6 @@ u8 = encoding.UTF8
 local menu = imgui.new.bool(false)
 local selectedTab = 1
 
-------------------------------------------------
--- OPTIONS
-------------------------------------------------
-
-local godmode      = imgui.new.bool(false)
-local speedhack    = imgui.new.bool(false)
-local flymode      = imgui.new.bool(false)
-
-local infiniteammo = imgui.new.bool(false)
-local norecoil     = imgui.new.bool(false)
-local fastreload   = imgui.new.bool(false)
-
-local playeresp    = imgui.new.bool(false)
-local lineesp      = imgui.new.bool(false)
-local boxesp       = imgui.new.bool(false)
-
-local vehicleesp   = imgui.new.bool(false)
-local speedboost   = imgui.new.bool(false)
-
-local antifreeze   = imgui.new.bool(false)
-local antiafk      = imgui.new.bool(false)
-
-local darktheme    = imgui.new.bool(true)
-
-------------------------------------------------
--- MAIN
-------------------------------------------------
 
 function main()
     repeat wait(0) until isSampAvailable()
@@ -50,22 +25,15 @@ function main()
     end
 end
 
-------------------------------------------------
--- STYLE
-------------------------------------------------
+
 
 function imgui.OnInitialize()
-    applyStyle()
+   
 end
 
 function applyStyle()
-
     local style = imgui.GetStyle()
     local colors = style.Colors
-
-    ------------------------------------------------
-    -- ROUND
-    ------------------------------------------------
 
     style.WindowRounding = 22
     style.ChildRounding = 20
@@ -82,10 +50,6 @@ function applyStyle()
     style.WindowPadding = imgui.ImVec2(18, 18)
     style.FramePadding = imgui.ImVec2(12, 10)
     style.ItemSpacing = imgui.ImVec2(12, 12)
-
-    ------------------------------------------------
-    -- GREEN COLORS
-    ------------------------------------------------
 
     local green      = imgui.ImVec4(0.10, 0.85, 0.45, 1.00)
     local greenHover = imgui.ImVec4(0.15, 1.00, 0.55, 1.00)
@@ -149,8 +113,8 @@ function applyStyle()
     colors[imgui.Col.SliderGrabActive] = green
 
     imgui.GetStyle().WindowPadding = imgui.ImVec2(5, 5)
-    imgui.GetStyle().FramePadding = imgui.ImVec2(5, 5)
-    imgui.GetStyle().ItemSpacing = imgui.ImVec2(5, 5)
+    imgui.GetStyle().FramePadding = imgui.ImVec2(7, 7)
+    imgui.GetStyle().ItemSpacing = imgui.ImVec2(7, 7)
     imgui.GetStyle().ItemInnerSpacing = imgui.ImVec2(2, 2)
     imgui.GetStyle().TouchExtraPadding = imgui.ImVec2(0, 0)
     imgui.GetStyle().IndentSpacing = 0
@@ -187,7 +151,7 @@ function glowButton(text, sx, sy)
     imgui.PushStyleColor(imgui.Col.ButtonActive,
         imgui.ImVec4(0.10, 0.85, 0.45, 1.00))
 
-    local result = imgui.Button(text, imgui.ImVec2(sx, sy))
+    local result = imgui.Button(text)
 
     imgui.PopStyleColor(3)
 
@@ -234,11 +198,12 @@ imgui.OnFrame(
         )
 
         imgui.Begin(
-            "Phantom Green Hub",
+            "Virus "..version,
             menu,
             imgui.WindowFlags.NoResize
-            + imgui.WindowFlags.NoCollapse
         )
+        
+        applyStyle()
 
         ------------------------------------------------
         -- LEFT
@@ -294,35 +259,16 @@ imgui.OnFrame(
 
         if selectedTab == 1 then
 
-            imgui.Text(u8"PLAYER")
+            imgui.Text(u8"Player")
             imgui.Separator()
 
-            imgui.Checkbox("God Mode", godmode)
-            imgui.Checkbox("Speed Hack", speedhack)
-            imgui.Checkbox("Fly Mode", flymode)
 
-            imgui.Spacing()
-
-            glowButton("Heal Player", 240, 42)
-            glowButton("Give Armor", 240, 42)
-
-        ------------------------------------------------
-        -- WEAPON
-        ------------------------------------------------
 
         elseif selectedTab == 2 then
 
-            imgui.Text(u8"WEAPON")
+            imgui.Text(u8"Weapon")
             imgui.Separator()
 
-            imgui.Checkbox("Infinite Ammo", infiniteammo)
-            imgui.Checkbox("No Recoil", norecoil)
-            imgui.Checkbox("Fast Reload", fastreload)
-
-            imgui.Spacing()
-
-            glowButton("Give Minigun", 240, 42)
-            glowButton("Give Sniper", 240, 42)
 
         ------------------------------------------------
         -- ESP
@@ -330,33 +276,46 @@ imgui.OnFrame(
 
         elseif selectedTab == 3 then
 
-            imgui.Text(u8"ESP")
+            imgui.Text(u8"Esp")
             imgui.Separator()
 
-            imgui.Checkbox("Player ESP", playeresp)
-            imgui.Checkbox("Line ESP", lineesp)
-            imgui.Checkbox("Box ESP", boxesp)
 
-            imgui.Spacing()
-
-            glowButton("Refresh ESP", 240, 42)
-
-        ------------------------------------------------
-        -- VEHICLE
-        ------------------------------------------------
 
         elseif selectedTab == 4 then
 
-            imgui.Text(u8"VEHICLE")
+            imgui.Text(u8"Vehicle")
             imgui.Separator()
 
-            imgui.Checkbox("Vehicle ESP", vehicleesp)
-            imgui.Checkbox("Speed Boost", speedboost)
+  
 
-            imgui.Spacing()
+        ------------------------------------------------
+        -- OTHER
+        ------------------------------------------------
 
-            glowButton("Repair Vehicle", 240, 42)
-            glowButton("Flip Vehicle", 240, 42)
+        elseif selectedTab == 5 then
+
+            imgui.Text(u8"Others")
+            imgui.Separator()
+
+
+
+        ------------------------------------------------
+        -- SETTINGS
+        ------------------------------------------------
+
+        elseif selectedTab == 6 then
+
+            imgui.Text(u8"Settings")
+            imgui.Separator()
+
+ 
+        end
+
+        imgui.EndChild()
+
+        imgui.End()
+    end
+))
 
         ------------------------------------------------
         -- OTHER
