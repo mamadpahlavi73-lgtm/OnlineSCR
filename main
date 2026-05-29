@@ -1,6 +1,3 @@
-script_name("Virus V1")
-script_author("Pve_Mamad")
-
 local imgui = require 'mimgui'
 local encoding = require 'encoding'
 
