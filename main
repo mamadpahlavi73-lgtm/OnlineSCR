@@ -1,6 +1,4 @@
-local version = "v1"
-
-script_name("Virus "..version)
+script_name("Virus V1")
 script_author("Pve_Mamad")
 
 local imgui = require 'mimgui'
@@ -198,7 +196,7 @@ imgui.OnFrame(
         )
 
         imgui.Begin(
-            "Virus "..version,
+            "Virus",
             menu,
             imgui.WindowFlags.NoResize
         )
